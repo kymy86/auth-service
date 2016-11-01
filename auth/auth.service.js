@@ -21,6 +21,9 @@ export function isAuthenticated(){
         if(req.query && req.query.hasOwnProperty('access_token')){
             req.headers.authorization = `Bearer ${req.query.access_token}`;
         }
+        if(!req.headers.authorization)
+            return res.status(403).send('Forbidden');
+
         validateJwt(req,res,next);
     })
     //Attach User to request
