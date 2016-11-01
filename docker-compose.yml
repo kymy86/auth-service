@@ -1,0 +1,22 @@
+web:
+    build: .
+    volumes:
+        - ./:/app
+        - /app/node_modules
+    ports:
+        - "3000:3000"
+    links:
+        - mongodb
+    entrypoint: ./wait-for-db.sh
+mongodata:
+    image: tianon/true
+    volumes:
+        - /data/db
+mongodb:
+    restart: always
+    image: kymy/mongodb
+    env_file: .env
+    ports:
+        - "27017:27017"
+    volumes_from:
+        - mongodata

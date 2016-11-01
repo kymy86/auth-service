@@ -1,0 +1,9 @@
+NODE_ENV=development
+PORT=your_nodejs_port
+MONGODB_ADDR=mongodb
+MONGODB_PORT=27017
+MONGODB_PASS=your_mongo_pass
+MONGODB_USER=your_mongo_user
+MONGODB_DATABASE=your_mong_db
+JWT_SECRET=your_jwt_secret
+
