@@ -17,7 +17,7 @@ const validateJwt = expressJwt({
 export function isAuthenticated(){
     return compose()
     //Validate JWT
-    .use(function(req,res,next){
+    .use((req,res,next)=>{
         if(req.query && req.query.hasOwnProperty('access_token')){
             req.headers.authorization = `Bearer ${req.query.access_token}`;
         }
@@ -27,7 +27,7 @@ export function isAuthenticated(){
         validateJwt(req,res,next);
     })
     //Attach User to request
-    .use(function(req,res,next){
+    .use((req,res,next)=>{
         User.findById(req.user._id).exec().then(user =>{
             if(!user){return res.status(401).end();}
             req.user = user;

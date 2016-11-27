@@ -17,7 +17,7 @@ const logger = new (winston.Logger) ({
   transports: [
     new (winstonDailyRotate) ({
       level: 'development' === env ? 'debug' : 'info',
-      filename: `${logDir}/-messages.log`,
+      filename: path.join(logDir,'-messages.log'),
       handleExceptions: true,
       timestamp: tsFormat,
       json: true,
@@ -36,7 +36,7 @@ const logger = new (winston.Logger) ({
 });
 
 logger.stream = {
-  write: function(message,encoding){
+  write: (message,encoding)=>   {
     logger.info(message);
   }
 };

@@ -19,12 +19,12 @@ var UserSchema = new Schema({
  */
 UserSchema
     .virtual('password')
-    .set(function(password){
+    .set((password)=>{
         this._password = password;
         this.salt = this.makeSalt();
         this.hashPassword = this.encryptPassword(this._password);
     })
-    .get(function(){ 
+    .get(()=>{ 
         return this._password;
     });
 
@@ -32,17 +32,17 @@ UserSchema
  * Validations
  */
 UserSchema.path('email')
-    .validate(function(email){
+    .validate((email)=>{
         return email.length;
     }, 'Email cannot be blank');
 
 UserSchema.path('hashPassword')
-    .validate(function(password){
+    .validate((password)=>{
         return password.length;
     }, 'password cannot be blank');
 
 UserSchema.path('email')
-    .validate(function(value,respond){
+    .validate((value,respond)=>{
         return this.constructor.findOne({email:value}).exec()
             .then(user => {
                 if(user){
@@ -51,10 +51,10 @@ UserSchema.path('email')
                 }
                 return respond(true);
             })
-            .catch(function(err){ throw err});
+            .catch((err)=>{ throw err});
     }, 'The email is already in used');
 
-var validatePresenceOf = function(value){
+var validatePresenceOf = (value)=>{
     return value && value.length;
 }
 
@@ -62,7 +62,7 @@ var validatePresenceOf = function(value){
  * Pre-save hook
  */
 UserSchema
-    .pre('save',function(next){
+    .pre('save',(next)=>{
         if(this.isNew){
             if(!validatePresenceOf(this.hashPassword))
                 next(new Error('Invalid password'));
@@ -79,7 +79,7 @@ UserSchema.methods = {
     /**
      * authenticate by checking if the password are the same
      */
-    authenticate: function(plainText,callback){
+    authenticate: (plainText,callback)=>{
         if(!callback){
             return this.hashPassword === this.encryptPassword(plainText);
         }
@@ -102,7 +102,7 @@ UserSchema.methods = {
    * @return {String}
    * @api public
    */
-    makeSalt: function(){
+    makeSalt: ()=>{
         return crypto.randomBytes(16).toString('base64');
     },
     
@@ -113,7 +113,7 @@ UserSchema.methods = {
    * @return {String}
    * @api public
    */
-    encryptPassword: function(password,callback){
+    encryptPassword: (password,callback)=>{
         if(!password || !this.salt){
             if(!callback)
                 return '';

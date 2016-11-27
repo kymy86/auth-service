@@ -8,7 +8,7 @@ import errorHandler from 'errorhandler';
 import config from './environments'
 import logger from './logger';
 
-export default function(app){
+export default (app)=>{
   app.use(bodyParser.urlencoded({extended:false}));
   app.use(bodyParser.json());
   app.use(methodOverride());

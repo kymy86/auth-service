@@ -9,8 +9,8 @@ require('./passport').setup(User);
 
 var router = new Router();
 
-router.post('/',function(req,res,next){
-    passport.authenticate('local',function(err,user,info){
+router.post('/',(req,res,next)=>{
+    passport.authenticate('local',(err,user,info)=>{
         var error = err || info;
         if(error){ return res.status(401).json(error);}
         if(!user){ return res.status(400).json({message:'Something went wrong, please try again'});}

@@ -7,7 +7,7 @@ function localAuthenticate(User, email, password, done){
         .exec().then(user => {
             if(!user){return done(null,false,{message:'This email doesn\'t exist'});}
             
-            user.authenticate(password,function(authError,authenticated){
+            user.authenticate(password,(authError,authenticated)=>{
                 if(authError) {return done(authError)}
                 if(!authenticated){
                     return done(null,false,{message:'This password is not correct'});
@@ -23,7 +23,7 @@ export function setup(User){
     passport.use(new LocalStrategy({
         usernameField:'email',
         passwordField:'password'
-    },function(email,password,done){
+    },(email,password,done)=>{
         return localAuthenticate(User,email,password,done);
     }));
 }

@@ -7,7 +7,7 @@ export function honeypot(req,res){
 };
 
 export function index(req,res){
-    User.find({},'-salt -hashPassword',function(err,users){
+    User.find({},'-salt -hashPassword',(err,users)=>{
         if(err) return res.send(500,err);
         res.status(200).json(users);
     });

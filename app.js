@@ -3,6 +3,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import config from './config/environments';
+import logger from './config/logger.js';
 
 //connect to database
 mongoose.connect(config.mongo.uri,config.mongo.options);
@@ -15,8 +16,8 @@ const server = require('http').createServer(app);
 require('./config/express').default(app);
 require('./routes').default(app);
 
-server.listen(config.port, function(){
-  console.log(`Express server listening on ${config.port}, in ${config.env} mode`);
+server.listen(config.port,()=>{
+  logger.info(`Express server listening on ${config.port}, in ${config.env} mode`);
 })
 
 exports = module.exports = app;

@@ -2,7 +2,7 @@
 
 import errors from './components/errors';
 
-export default function(app){
+export default (app)=>{
 
     app.use('/api',require('./api'));
     app.use('/auth',require('./auth').default);
