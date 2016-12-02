@@ -9,26 +9,23 @@ describe('User API',() =>{
 
     before((done)=>{
         User.remove().then(()=>{
-            userAdmin = new User({
+            User.create({
                 name: 'test user admin',
                 email: 'admin@test.com',
                 password: 'password',
                 role:'admin'
             });
-            userAdmin.save();
-            user = new User({
+            User.create({
                 name: 'test user',
                 email: 'user@test.com',
                 password: 'password',
             });
-            user.save();
             done();
         });
     });
 
     after((done)=>{
         User.remove().exec();
-        console.log("Remove test user");
         done();
     });
 

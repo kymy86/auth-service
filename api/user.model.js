@@ -16,15 +16,16 @@ var UserSchema = new Schema({
 
 /**
  * Virtuals
+ * N.B. Mongoose can't use the arrow function for a well known bug: https://github.com/Automattic/mongoose/issues/3695
  */
 UserSchema
     .virtual('password')
-    .set((password)=>{
+    .set(function(password){
         this._password = password;
         this.salt = this.makeSalt();
         this.hashPassword = this.encryptPassword(this._password);
     })
-    .get(()=>{ 
+    .get(function(){ 
         return this._password;
     });
 
@@ -42,7 +43,7 @@ UserSchema.path('hashPassword')
     }, 'password cannot be blank');
 
 UserSchema.path('email')
-    .validate((value,respond)=>{
+    .validate(function(value,respond){
         return this.constructor.findOne({email:value}).exec()
             .then(user => {
                 if(user){
@@ -62,7 +63,7 @@ var validatePresenceOf = (value)=>{
  * Pre-save hook
  */
 UserSchema
-    .pre('save',(next)=>{
+    .pre('save',function(next){
         if(this.isNew){
             if(!validatePresenceOf(this.hashPassword))
                 next(new Error('Invalid password'));
@@ -79,7 +80,7 @@ UserSchema.methods = {
     /**
      * authenticate by checking if the password are the same
      */
-    authenticate: (plainText,callback)=>{
+    authenticate: function(plainText,callback){
         if(!callback){
             return this.hashPassword === this.encryptPassword(plainText);
         }
@@ -113,7 +114,7 @@ UserSchema.methods = {
    * @return {String}
    * @api public
    */
-    encryptPassword: (password,callback)=>{
+    encryptPassword: function(password,callback){
         if(!password || !this.salt){
             if(!callback)
                 return '';

@@ -1,0 +1,8 @@
+NODE_ENV=development
+PORT=3000
+MONGODB_ADDR=mongodb
+MONGODB_PORT=27017
+MONGODB_PASS=test
+MONGODB_USER=test
+MONGODB_DATABASE=inventory-db
+JWT_SECRET=32u89adojajlk3p98èjòkjmjhosu1è
