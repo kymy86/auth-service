@@ -4,8 +4,6 @@ import User from './user.model';
 const server = require('../index.js');
 
 describe('User API',() =>{
-    let userAdmin;
-    let user;
 
     before((done)=>{
         User.remove().then(()=>{
