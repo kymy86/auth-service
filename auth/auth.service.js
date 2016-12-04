@@ -31,7 +31,7 @@ export function isAuthenticated(){
         User.findById(req.user._id).exec().then(user =>{
             if(!user){return res.status(401).end();}
             req.user = user;
-            next();
+            return next();
         }).catch(err => next(err));
     }); 
 }

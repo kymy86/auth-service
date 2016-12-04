@@ -78,7 +78,7 @@ describe('User API',() =>{
             });
      });
 
-     it('should not authorize admin',(done)=>{
+     it('should not authorize simple user',(done)=>{
         request(server)
             .get('/api/users')
             .set('Authorization','Bearer ' + token)

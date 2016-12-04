@@ -66,13 +66,13 @@ UserSchema
     .pre('save',function(next){
         if(this.isNew){
             if(!validatePresenceOf(this.hashPassword))
-                next(new Error('Invalid password'));
+                return next(new Error('Invalid password'));
             else{
                 this.createdAt = new Date();
-                next();
+                return next();
             }
         }
-        next();
+        return next();
     });
 
 UserSchema.methods = {
