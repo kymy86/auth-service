@@ -29,6 +29,15 @@ UserSchema
         return this._password;
     });
 
+UserSchema
+    .virtual('profile')
+    .get(function(){
+        return {
+            name: this.name,
+            role: this.role,
+            createdAt:this.createdAt
+        };
+    });
 /**
  * Validations
  */

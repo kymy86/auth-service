@@ -23,10 +23,31 @@ export function create(req,res){
 };
 
 export function update(req,res){
+    let userId = req.params.id;
+    let oPwd = String(req.body.oPassword);
+    let nPwd = String(req.body.nPassword);
+    let name = String(req.body.name);
+    
+    User.findById(userId).exec().then((user)=>{
+        if(user.authenticate(oPwd)){
+            user.password=nPwd;
+            user.name = name.length!==0 ? name : user.name;
+            return user.save().then(()=>{
+                res.status(200).end();
+            }).catch((err)=>next(err));
+        }else{
+            return res.status(403).json({"message":"error"});
+        }
+    });
 
 };
 
-export function remove(req,res,next){};
+export function remove(req,res,next){
+    let userId = req.params.id;
+    User.findByIdAndRemove(userId).exec().then(()=>{
+        return res.status(200).json({"message":"ok"});
+    }).catch((err)=>next(err));
+};
 
 export function show(req,res,next){
     let userId = req.params.id;
@@ -34,7 +55,6 @@ export function show(req,res,next){
         if(!user){
             return res.status(404).json({"message":"user not found"});
         }
-        /* @TODO return only certain atttributes*/
-        return res.status(200).json(user);
+        return res.status(200).json(user.profile);
     }).catch((err)=>next(err));
 };

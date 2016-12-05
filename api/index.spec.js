@@ -57,6 +57,23 @@ describe('User API',() =>{
                 done();
             });
     });
+
+    it('should create an user',(done)=>{
+        request(server)
+            .post('/api')
+            .set('Authorization','Bearer ' + token)
+            .send({
+                name:'test2',
+                email:'test22@test.com',
+                password:'testpwd'
+            })
+            .end((err,res)=>{
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                done();
+            });
+    });
+
  });
 
  describe('GET /api/users as USER',()=>{
