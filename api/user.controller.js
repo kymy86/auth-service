@@ -13,10 +13,19 @@ export function index(req,res){
     });
 };
 
+export function me(req,res,next){
+    let userId = req.user._id;
+    User.findOne({_id:userId},'-salt -hashPassword').exec().then((user)=>{
+        if(!user)
+            return res.status(401).end();
+        res.status(200).json(user);
+    }).catch((err)=> next(err));
+};
+
 export function create(req,res){
     let user = new User(req.body);
         user.save().then(function(user){  
-        return res.status(200).json({"message":"ok"});
+        return res.status(200).end();
     }).catch((err)=>{
         return res.status(500).json(err);
     });
@@ -36,8 +45,10 @@ export function update(req,res){
                 res.status(200).end();
             }).catch((err)=>next(err));
         }else{
-            return res.status(403).json({"message":"error"});
+            return res.status(403).end();
         }
+    }).catch((err)=>{
+        return res.status(500).json(err);
     });
 
 };
@@ -45,16 +56,6 @@ export function update(req,res){
 export function remove(req,res,next){
     let userId = req.params.id;
     User.findByIdAndRemove(userId).exec().then(()=>{
-        return res.status(200).json({"message":"ok"});
-    }).catch((err)=>next(err));
-};
-
-export function show(req,res,next){
-    let userId = req.params.id;
-    User.findById(userId).exec().then((user)=>{
-        if(!user){
-            return res.status(404).json({"message":"user not found"});
-        }
-        return res.status(200).json(user.profile);
+        return res.status(200).end();
     }).catch((err)=>next(err));
 };
